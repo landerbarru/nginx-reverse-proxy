@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="eu">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kontaktua | Código ágil</title>
+  <link rel="stylesheet" href="erronka.css">
+</head>
+
+<body>
+  <header class="goiburua">
+    <div class="goiburua-barnea">
+      <h1>Código ágil</h1>
+      <nav>
+        <ul>
+          <li><img src="logo.jpg" alt="Enpresa logoa"></li>
+          <li><a href="hasiera.html">Hasiera</a></li>
+          <li><a href="oinarrizko_informazioa.html">Oinarrizko informazioa</a></li>
+          <li><a href="Zerbitzuak.html">Zerbitzuak</a></li>
+          <li><a href="Formularioa.html" class="saioa" aria-current="page">Kontaktua</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <h2>Kontaktua</h2>
+    <p>Bete formularioa eta zuregana jarriko gara harremanetan. Izartxoa (*) duten eremuak derrigorrezkoak dira.</p>
+    <form id="kontaktu-formularioa">
+      <div>
+        <label for="izena">Izena *</label>
+        <input type="text" id="izena" name="izena" placeholder="Idatzi zure izena" minlength="3">
+      </div>
+      <div>
+        <label for="abizenak">Abizenak *</label>
+        <input type="text" id="abizenak" name="abizenak" placeholder="Idatzi zure abizenak" minlength="3" maxlength="40">
+      </div>
+      <div>
+        <label for="adina">Adina *</label>
+        <input type="number" id="adina" name="adina" min="16" max="65">
+      </div>
+      <div>
+        <label for="tlf">Telefonoa *</label>
+        <input type="tel" id="tlf" name="telefonoa" placeholder="600 000 000">
+      </div>
+      <div>
+        <label for="posta-kodea">Posta-kodea *</label>
+        <input type="text" id="posta-kodea" name="posta-kodea" inputmode="numeric"
+          placeholder="48340">
+      </div>
+      <div>
+        <label for="email">Email *</label>
+        <input type="email" id="email" name="email">
+      </div>
+      <div>
+        <label for="jaioteguna">Jaioteguna *</label>
+        <input type="date" id="jaioteguna" name="jaioteguna">
+      </div>
+      <fieldset id="mota">
+        <legend>Mezu mota *</legend>
+        <label><input type="radio" name="mota" value="zalantza"> Zalantza</label>
+        <label><input type="radio" name="mota" value="iradokizuna"> Iradokizuna</label>
+        <label><input type="radio" name="mota" value="kexa"> Kexa</label>
+        <label><input type="radio" name="mota" value="beste"> Beste batzuk</label>
+      </fieldset>
+
+      <div>
+        <label for="mezua">Mezua *</label>
+        <textarea id="mezua" name="mezua" rows="5" maxlength="500"></textarea>
+        <span class="kontagailua" id="kontagailua">0 / 500 karaktere</span>
+      </div>
+
+      <div>
+        <label for="dokumentuak">Dokumentuak igo (PDF edo Word)</label>
+        <input type="file" id="dokumentuak" name="dokumentuak" accept=".pdf,.doc,.docx" multiple>
+      </div>
+
+      <div>
+        <label style="font-weight:400"><input type="checkbox" id="babesa" name="babesa">
+          Datuen babes politika irakurri dut eta onartzen dut *</label>
+      </div>
+
+      <input type="submit" value="Bidali" class="botoia" id="botoia">
+    </form>
+  </main>
+  <script src="script.js"></script>
+</body>
+
+</html>

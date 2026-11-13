@@ -13,10 +13,18 @@ services:
     image: nginx:alpine
     restart: unless-stopped
     ports:
-      - "80:80"                 # ¿Puerto 80 ocupado en tu PC? Usa otro: "8080:80"
+      - "80:80"                 # Acceso directo en http://localhost/
+      - "8080:80"               # Alternativa en http://localhost:8080/
     volumes:
       - ./proxy/nginx.conf:/etc/nginx/conf.d/default.conf:ro   # la configuración
-      - ./proxy/web:/usr/share/nginx/html:ro                   # la web del portal
+      - ./intranet:/usr/share/nginx/html:ro                    # intranet de entrada
+
+  zerbitzuak:                   # web pública en su propio contenedor → /zerbitzuak/
+    image: nginx:alpine
+    restart: unless-stopped
+    command: ["/bin/sh", "-c", "printf 'server { listen 80; root /usr/share/nginx/html; index Zerbitzuak.html; }' > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'" ]
+    volumes:
+      - ./proxy/web:/usr/share/nginx/html:ro
 
   code:                         # VS Code en el navegador → /code/
     image: lscr.io/linuxserver/code-server:latest
@@ -28,7 +36,23 @@ services:
       PASSWORD: "${CODE_PASSWORD:?Falta CODE_PASSWORD: crea el fichero .env a partir de .env.template}"
     volumes:
       - code_config:/config
-      - ./:/config/workspace    # el propio proyecto: puedes editarlo desde /code/
+      - ./:/config/workspace    # incluye proxy/web, que es el contenido servido por nginx
+
+  duplicati:                   # copias/restauración del sitio → /duplicati/
+    image: lscr.io/linuxserver/duplicati:latest
+    restart: unless-stopped
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Madrid
+      DUPLICATI__WEBSERVICE_PASSWORD: "${DUPLICATI_PASSWORD:?Falta DUPLICATI_PASSWORD en .env}"
+      SETTINGS_ENCRYPTION_KEY: "${DUPLICATI_ENCRYPTION_KEY:?Falta DUPLICATI_ENCRYPTION_KEY en .env}"
+    ports:
+      - "8200:8200"
+    volumes:
+      - duplicati_config:/config
+      - ./proxy/web:/source/web:ro
+      - ./backups:/backups
 
   portainer:                    # gestión de Docker desde el navegador → /portainer/
     image: portainer/portainer-ce:latest
@@ -41,4 +65,5 @@ services:
 
 volumes:
   code_config:
+  duplicati_config:
   portainer_data:
